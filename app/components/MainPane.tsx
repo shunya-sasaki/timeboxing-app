@@ -2,7 +2,7 @@ import { TaskTable } from "./tasktable/TaskTable";
 
 export const MainPane = () => {
   return (
-    <div className="p-4">
+    <div className="pl-4">
       <div className="p-4">
         <div className="text-xl font-bold">AM</div>
         <TaskTable />

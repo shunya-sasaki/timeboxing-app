@@ -1,6 +1,3 @@
-import { useState } from "react";
-import { useEffect } from "react";
-
 export const ActualTime = (props: {
   hour: number | undefined;
   minute: number | undefined;
