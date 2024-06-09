@@ -8,7 +8,7 @@ export const calcActualTime = (
   let diffMinute = endMinute - startMinute;
   if (diffMinute < 0) {
     diffMinute += 60;
-    diffHour += 1;
+    diffHour -= 1;
   }
 
   return { diffHour, diffMinute };
