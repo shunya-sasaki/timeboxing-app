@@ -12,7 +12,7 @@ export const SideBar = () => {
     <div className="p-2">
       {menuItems.map((menuItem, index) => {
         return (
-          <div key={"menuItem-" + index} className="font-bold hover:text-red-500">
+          <div key={"menuItem-" + index} className="text-xl font-bold hover:text-accent pt-4">
             <FontAwesomeIcon icon={menuItem.icon} /> {menuItem.name}
           </div>
         );

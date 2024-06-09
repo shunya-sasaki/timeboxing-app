@@ -12,6 +12,7 @@ const config: Config = {
         primary: "#606060",
         secondary: "#909090",
         tertiary: "#a0a0a0",
+        accent: "#ff0000"
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

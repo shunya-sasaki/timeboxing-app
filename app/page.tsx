@@ -14,10 +14,10 @@ export default function Home() {
         </header>
         <div className="h-[92.5%] min-h-[92.5%] z-0">
           <div className="flex h-full">
-            <div className="w-[7.5%] h-full border-r-2">
+            <div className="w-[10.0%] h-full border-r-2">
               <SideBar/>
             </div>
-            <div className="w-[92.5%] h-full">
+            <div className="w-[90%] h-full">
               <MainPane/>
             </div>
           </div>
