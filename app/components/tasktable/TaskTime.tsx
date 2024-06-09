@@ -11,7 +11,6 @@ export const TaskTime = (props: {
     <div>
       <input
         type="text"
-        value={hour}
         step={1}
         onChange={(e) => setHour(parseInt(e.target.value))}
         className=" w-6 text-right"
@@ -20,7 +19,6 @@ export const TaskTime = (props: {
       :
       <input
         type="text"
-        value={minute}
         step={15}
         onChange={(e) => setMinute(parseInt(e.target.value))}
         className=" w-8"

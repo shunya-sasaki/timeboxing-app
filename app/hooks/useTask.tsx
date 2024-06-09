@@ -8,7 +8,7 @@ import { ActualTime } from "../components/tasktable/ActualTime";
 import { TaskStatus } from "../components/tasktable/TaskStatus";
 import { calcActualTime } from "../utils/calcActualTime";
 
-export const CreateTask = () => {
+export const useTask = () => {
   const [name, setName] = useState("");
   const [priority, setPriority] = useState("★️");
   const [estimatedTime, setEstimatedTime] = useState<string | undefined>(
@@ -70,10 +70,22 @@ export const CreateTask = () => {
     }
   }, [startHour, startMinute, endHour, endMinute]);
 
-  const task = {
-    name,
-    priority,
-    estimatedTime,
+  const createTask = () => {
+    const task = {
+      name,
+      priority,
+      estimatedTime,
+      jsxTaskName,
+      jsxTaskPriority,
+      jsxEstimatedTime,
+      jsxStartTime,
+      jsxEndTime,
+      jsxActualTime,
+      jsxTaskStatus,
+    };
+    return task;
+  };
+  return {
     jsxTaskName,
     jsxTaskPriority,
     jsxEstimatedTime,
@@ -82,6 +94,4 @@ export const CreateTask = () => {
     jsxActualTime,
     jsxTaskStatus,
   };
-
-  return task;
 };

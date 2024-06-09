@@ -6,17 +6,16 @@ import { faStopwatch } from "@fortawesome/free-solid-svg-icons";
 import { faHourglassStart } from "@fortawesome/free-solid-svg-icons";
 import { faHourglassEnd } from "@fortawesome/free-solid-svg-icons";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
-
-import { CreateTask } from "../../hooks/CreateTask";
+import { useTask } from "@/app/hooks/useTask";
+import { Task } from "./Task";
 
 export const TaskTable = () => {
   const [tasks, setTasks] = useState([
-    CreateTask(),
-    CreateTask(),
-    CreateTask(),
-    CreateTask(),
-    CreateTask(),
-    CreateTask(),
+    useTask(),
+    useTask(),
+    useTask(),
+    useTask(),
+    useTask(),
   ]);
   return (
     <div className="flex flex-col">
@@ -45,19 +44,7 @@ export const TaskTable = () => {
       </div>
       <div className="border-b-2">
         {tasks.map((task, index) => {
-          return (
-            <div key={"task-" + index} className="flex flex-row pt-2">
-              <div className="w-64 ml-4">{task.jsxTaskName}</div>
-              <div className="w-20 ml-4 text-left">{task.jsxTaskPriority}</div>
-              <div className="w-28 ml-4 text-right">
-                {task.jsxEstimatedTime}
-              </div>
-              <div className="w-20 ml-4 text-right">{task.jsxStartTime}</div>
-              <div className="w-20 ml-4 text-right">{task.jsxEndTime}</div>
-              <div className="w-28 ml-4 text-right">{task.jsxActualTime}</div>
-              <div className="w-28 ml-4 text-right">{task.jsxTaskStatus}</div>
-            </div>
-          );
+          return <Task key={"task-" + index} />;
         })}
       </div>
       <div className="flex flex-row">
