@@ -32,6 +32,7 @@ export const Task = (props: TaskProps) => {
     undefined
   );
   const [status, setStatus] = useState("Not Started");
+  const [statusColor, setStatusColor] = useState("text-gray bg-white");
   const jsxTaskName = <TaskName />;
   const jsxTaskPriority = <TaskPriority />;
   const jsxEstimatedTime = (
@@ -57,7 +58,7 @@ export const Task = (props: TaskProps) => {
     />
   );
   const jsxActualTime = <ActualTime hour={actualHour} minute={actualMinute} />;
-  const jsxTaskStatus = <TaskStatus />;
+  const jsxTaskStatus = <TaskStatus status={status} setStatus={setStatus} />;
 
   const updateEstimatedTimes = (estimatedTime: string | undefined) => {
     const newEstimatedTimes = { ...estimatedTimes };
@@ -103,6 +104,20 @@ export const Task = (props: TaskProps) => {
     }
   }, [startHour, startMinute, endHour, endMinute]);
 
+  useEffect(() => {
+    switch (status) {
+      case "Not Started":
+        setStatusColor(" text-gray bg-white");
+        break;
+      case "In Progress":
+        setStatusColor(" text-blue-500 bg-blue-100");
+        break;
+      case "Completed":
+        setStatusColor(" text-green-500 bg-green-100");
+        break;
+    }
+  }, [status]);
+
   return (
     <div className="flex flex-row pt-2">
       <div className="w-64 ml-4">{jsxTaskName}</div>
@@ -111,7 +126,9 @@ export const Task = (props: TaskProps) => {
       <div className="w-20 ml-4 text-right">{jsxStartTime}</div>
       <div className="w-20 ml-4 text-right">{jsxEndTime}</div>
       <div className="w-28 ml-4 text-right">{jsxActualTime}</div>
-      <div className="w-28 ml-4 text-right">{jsxTaskStatus}</div>
+      <div className={"w-28 ml-4 text-center" + statusColor}>
+        {jsxTaskStatus}
+      </div>
     </div>
   );
 };
