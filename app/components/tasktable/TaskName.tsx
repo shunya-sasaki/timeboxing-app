@@ -1,7 +1,10 @@
 import { useState } from "react";
 
-export const TaskName = () => {
-  const [name, setName] = useState("");
+export const TaskName = (props: {
+  name: string;
+  setName: (name: string) => void;
+}) => {
+  const { name, setName } = props;
   return (
     <div>
       <input

@@ -8,7 +8,6 @@ import { ActualTime } from "./ActualTime";
 import { TaskStatus } from "./TaskStatus";
 import { calcActualTime } from "../../utils/calcActualTime";
 import { TaskProps } from "../../interfaces/TaskProps";
-import { useMemo } from "react";
 
 export const Task = (props: TaskProps) => {
   const id = props.id;
@@ -16,6 +15,9 @@ export const Task = (props: TaskProps) => {
   const setEstimatedTimes = props.setEstimatedTimes;
   const actualTimes = props.actualTimes;
   const setActualTimes = props.setActualTimes;
+  const tableState = props.tableState;
+  const setTableState = props.setTableState;
+
   const [name, setName] = useState("");
   const [priority, setPriority] = useState("★️");
   const [estimatedTime, setEstimatedTime] = useState<string | undefined>(
@@ -33,8 +35,11 @@ export const Task = (props: TaskProps) => {
   );
   const [status, setStatus] = useState("Not Started");
   const [statusColor, setStatusColor] = useState("text-gray bg-white");
-  const jsxTaskName = <TaskName />;
-  const jsxTaskPriority = <TaskPriority />;
+
+  const jsxTaskName = <TaskName name={name} setName={setName} />;
+  const jsxTaskPriority = (
+    <TaskPriority priority={priority} setPriority={setPriority} />
+  );
   const jsxEstimatedTime = (
     <EstimatedTime
       estimatedTime={estimatedTime}
@@ -64,7 +69,6 @@ export const Task = (props: TaskProps) => {
     const newEstimatedTimes = { ...estimatedTimes };
     newEstimatedTimes[id] = estimatedTime;
     setEstimatedTimes(newEstimatedTimes);
-    console.log(newEstimatedTimes);
   };
 
   const updateActualTimes = (actualTime: string | undefined) => {
@@ -103,6 +107,44 @@ export const Task = (props: TaskProps) => {
       setActualMinute(diffMinute);
     }
   }, [startHour, startMinute, endHour, endMinute]);
+
+  useEffect(() => {
+    const newTableState = { ...tableState };
+    newTableState.tasks[id] = {
+      name: name,
+      priority: priority,
+      estimatedTime: estimatedTime,
+      startHour: startHour,
+      startMinute: startMinute,
+      endHour: endHour,
+      endMinute: endMinute,
+      status: status,
+    };
+    setTableState(newTableState);
+  }, [
+    id,
+    name,
+    priority,
+    estimatedTime,
+    startHour,
+    startMinute,
+    endHour,
+    endMinute,
+    status,
+  ]);
+
+  useEffect(() => {
+    if (id in tableState.tasks) {
+      setName(tableState.tasks[id].name);
+      setPriority(tableState.tasks[id].priority);
+      setEstimatedTime(tableState.tasks[id].estimatedTime);
+      setStartHour(tableState.tasks[id].startHour);
+      setStartMinute(tableState.tasks[id].startMinute);
+      setEndHour(tableState.tasks[id].endHour);
+      setEndMinute(tableState.tasks[id].endMinute);
+      setStatus(tableState.tasks[id].status);
+    }
+  }, []);
 
   useEffect(() => {
     switch (status) {
