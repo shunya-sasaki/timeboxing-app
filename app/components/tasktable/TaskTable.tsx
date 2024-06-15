@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
@@ -9,16 +9,15 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { Task } from "./Task";
 import { strTimeToMinute } from "@/app/utils/strTimeToMinute";
 
-export const TaskTable = () => {
+export const TaskTable = (props: { tableName: string }) => {
+  const name = props.tableName;
   const numTasks = 8;
   const [estimatedTimes, setEstimatedTimes] = useState<{} | { string: string }>(
     {}
   );
   const [totalEstimatedTime, setTotalEstimatedTime] = useState<string>("00:00");
 
-  const [actualTimes, setActualTimes] = useState<{} | { string: string }>(
-    {}
-  );
+  const [actualTimes, setActualTimes] = useState<{} | { string: string }>({});
   const [totalActualTime, setTotalActualTime] = useState<string>("00:00");
 
   useEffect(() => {
@@ -55,6 +54,23 @@ export const TaskTable = () => {
     );
   }, [actualTimes]);
 
+  useEffect(() => {
+    localStorage.setItem(
+      name,
+      JSON.stringify({
+        name: name,
+      })
+    );
+  }, [name]);
+
+  useEffect(() => {
+    const storedData = localStorage.getItem(name);
+    if (storedData !== null) {
+      const parsedData = JSON.parse(storedData);
+      console.log("parsedData: ", parsedData);
+    }
+  }, []);
+
   return (
     <div className="flex flex-col">
       <div className="flex flex-row w-full border-b-2">
@@ -90,7 +106,7 @@ export const TaskTable = () => {
                 id={index}
                 estimatedTimes={estimatedTimes}
                 setEstimatedTimes={setEstimatedTimes}
-                actualTimes = {actualTimes}
+                actualTimes={actualTimes}
                 setActualTimes={setActualTimes}
               />
             );
