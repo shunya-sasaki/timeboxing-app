@@ -10,6 +10,7 @@ import { calcActualTime } from "../../utils/calcActualTime";
 import { TaskProps } from "../../interfaces/TaskProps";
 
 export const Task = (props: TaskProps) => {
+  const [isInitialized, setIsInitialized] = useState<boolean>(false);
   const id = props.id;
   const estimatedTimes = props.estimatedTimes;
   const setEstimatedTimes = props.setEstimatedTimes;
@@ -17,6 +18,7 @@ export const Task = (props: TaskProps) => {
   const setActualTimes = props.setActualTimes;
   const tableState = props.tableState;
   const setTableState = props.setTableState;
+  const tableIsInitialized = props.tableIsInitialized;
 
   const [name, setName] = useState("");
   const [priority, setPriority] = useState("★️");
@@ -109,18 +111,20 @@ export const Task = (props: TaskProps) => {
   }, [startHour, startMinute, endHour, endMinute]);
 
   useEffect(() => {
-    const newTableState = { ...tableState };
-    newTableState.tasks[id] = {
-      name: name,
-      priority: priority,
-      estimatedTime: estimatedTime,
-      startHour: startHour,
-      startMinute: startMinute,
-      endHour: endHour,
-      endMinute: endMinute,
-      status: status,
-    };
-    setTableState(newTableState);
+    if (isInitialized) {
+      const newTableState = { ...tableState };
+      newTableState.tasks[id] = {
+        name: name,
+        priority: priority,
+        estimatedTime: estimatedTime,
+        startHour: startHour,
+        startMinute: startMinute,
+        endHour: endHour,
+        endMinute: endMinute,
+        status: status,
+      };
+      setTableState(newTableState);
+    }
   }, [
     id,
     name,
@@ -134,17 +138,20 @@ export const Task = (props: TaskProps) => {
   ]);
 
   useEffect(() => {
-    if (id in tableState.tasks) {
-      setName(tableState.tasks[id].name);
-      setPriority(tableState.tasks[id].priority);
-      setEstimatedTime(tableState.tasks[id].estimatedTime);
-      setStartHour(tableState.tasks[id].startHour);
-      setStartMinute(tableState.tasks[id].startMinute);
-      setEndHour(tableState.tasks[id].endHour);
-      setEndMinute(tableState.tasks[id].endMinute);
-      setStatus(tableState.tasks[id].status);
+    if (tableIsInitialized) {
+      if (id in tableState.tasks) {
+        setName(tableState.tasks[id].name);
+        setPriority(tableState.tasks[id].priority);
+        setEstimatedTime(tableState.tasks[id].estimatedTime);
+        setStartHour(tableState.tasks[id].startHour);
+        setStartMinute(tableState.tasks[id].startMinute);
+        setEndHour(tableState.tasks[id].endHour);
+        setEndMinute(tableState.tasks[id].endMinute);
+        setStatus(tableState.tasks[id].status);
+      }
+      setIsInitialized(true);
     }
-  }, []);
+  }, [tableIsInitialized]);
 
   useEffect(() => {
     switch (status) {

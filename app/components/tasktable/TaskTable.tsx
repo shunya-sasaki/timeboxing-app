@@ -6,6 +6,7 @@ import { TableSummary } from "./TableSummary";
 import { TableState } from "@/app/interfaces/TableState";
 
 export const TaskTable = (props: { tableName: string }) => {
+  const [isInitialized, setIsInitialized] = useState<boolean>(false);
   const name = props.tableName;
   const numTasks = 8;
   const [estimatedTimes, setEstimatedTimes] = useState<{} | { string: string }>(
@@ -53,20 +54,23 @@ export const TaskTable = (props: { tableName: string }) => {
   }, [actualTimes]);
 
   useEffect(() => {
-    localStorage.setItem(
-      name,
-      JSON.stringify({
-        name: name,
-      })
-    );
-  }, [name]);
+    if (isInitialized && Object.keys(tableState.tasks).length > 0) {
+      localStorage.setItem(
+        name,
+        JSON.stringify({
+          state: tableState,
+        })
+      );
+    }
+  }, [isInitialized, name, tableState]);
 
   useEffect(() => {
     const storedData = localStorage.getItem(name);
     if (storedData !== null) {
       const parsedData = JSON.parse(storedData);
-      console.log("parsedData: ", parsedData);
+      setTableState(parsedData.state);
     }
+    setIsInitialized(true);
   }, []);
 
   return (
@@ -86,6 +90,7 @@ export const TaskTable = (props: { tableName: string }) => {
                 setActualTimes={setActualTimes}
                 tableState={tableState}
                 setTableState={setTableState}
+                tableIsInitialized={isInitialized}
               />
             );
           })}

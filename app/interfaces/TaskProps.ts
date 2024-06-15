@@ -8,4 +8,5 @@ export interface TaskProps {
   setActualTimes: (object: { [key: number]: string | undefined }) => void;
   tableState: TableState;
   setTableState: (object: TableState) => void;
+  tableIsInitialized: boolean;
 }
