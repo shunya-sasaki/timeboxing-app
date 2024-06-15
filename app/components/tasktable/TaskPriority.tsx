@@ -1,6 +1,8 @@
-import { useState } from "react";
-export const TaskPriority = () => {
-  const [priority, setPriority] = useState("★️");
+export const TaskPriority = (props: {
+  priority: string;
+  setPriority: (priority: string) => void;
+}) => {
+  const {priority, setPriority} = props;
   return (
     <div>
       <select
