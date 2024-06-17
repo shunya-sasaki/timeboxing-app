@@ -19,6 +19,19 @@ export const TaskTable = (props: { tableName: string }) => {
 
   const [tableState, setTableState] = useState<TableState>({ tasks: {} });
 
+  const clearTableStates = () => {
+    setIsInitialized(false);
+    setEstimatedTimes({});
+    setActualTimes({});
+    setTableState({ tasks: {} });
+  };
+
+  useEffect(() => {
+    if (!isInitialized) {
+      setIsInitialized(true);
+    }
+  }, [isInitialized]);
+
   useEffect(() => {
     let totalMinute = 0;
     Object.values(estimatedTimes).map((estimatedTime) => {
@@ -74,31 +87,38 @@ export const TaskTable = (props: { tableName: string }) => {
   }, []);
 
   return (
-    <div className="flex flex-col">
-      <TableHader />
-      <div className="border-b-2">
-        {Array(numTasks)
-          .fill(0)
-          .map((_, index) => {
-            return (
-              <Task
-                key={"task-" + index}
-                id={index}
-                estimatedTimes={estimatedTimes}
-                setEstimatedTimes={setEstimatedTimes}
-                actualTimes={actualTimes}
-                setActualTimes={setActualTimes}
-                tableState={tableState}
-                setTableState={setTableState}
-                tableIsInitialized={isInitialized}
-              />
-            );
-          })}
+    <div>
+      <div className="flex">
+        <div className="text-xl font-bold">{name}</div>
+        <button onClick={clearTableStates}
+        className="pl-2 pr-2 ml-4 rounded-lg text-white bg-primary hover:bg-secondary">Clear</button>
       </div>
-      <TableSummary
-        totalEstimatedTime={totalEstimatedTime}
-        totalActualTime={totalActualTime}
-      />
+      <div className="flex flex-col">
+        <TableHader />
+        <div className="border-b-2">
+          {Array(numTasks)
+            .fill(0)
+            .map((_, index) => {
+              return (
+                <Task
+                  key={"task-" + index}
+                  id={index}
+                  estimatedTimes={estimatedTimes}
+                  setEstimatedTimes={setEstimatedTimes}
+                  actualTimes={actualTimes}
+                  setActualTimes={setActualTimes}
+                  tableState={tableState}
+                  setTableState={setTableState}
+                  tableIsInitialized={isInitialized}
+                />
+              );
+            })}
+        </div>
+        <TableSummary
+          totalEstimatedTime={totalEstimatedTime}
+          totalActualTime={totalActualTime}
+        />
+      </div>
     </div>
   );
 };

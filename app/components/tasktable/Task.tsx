@@ -28,8 +28,12 @@ export const Task = (props: TaskProps) => {
 
   const [startHour, setStartHour] = useState<number | undefined>(undefined);
   const [startMinute, setStartMinute] = useState<number | undefined>(undefined);
+  const [startStrHour, setStartStrHour] = useState<string>("");
+  const [startStrMinute, setStartStrMinute] = useState<string>("");
   const [endHour, setEndHour] = useState<number | undefined>(undefined);
   const [endMinute, setEndMinute] = useState<number | undefined>(undefined);
+  const [endStrHour, setEndStrHour] = useState<string>("");
+  const [endStrMinute, setEndStrMinute] = useState<string>("");
 
   const [actualHour, setActualHour] = useState<number | undefined>(undefined);
   const [actualMinute, setActualMinute] = useState<number | undefined>(
@@ -54,6 +58,10 @@ export const Task = (props: TaskProps) => {
       minute={startMinute}
       setHour={setStartHour}
       setMinute={setStartMinute}
+      strHour={startStrHour}
+      setStrHour={setStartStrHour}
+      strMinute={startStrMinute}
+      setStrMinute={setStartStrMinute}
       taskIsInitialized={isInitialized}
     />
   );
@@ -63,6 +71,10 @@ export const Task = (props: TaskProps) => {
       minute={endMinute}
       setHour={setEndHour}
       setMinute={setEndMinute}
+      strHour={endStrHour}
+      setStrHour={setEndStrHour}
+      strMinute={endStrMinute}
+      setStrMinute={setEndStrMinute}
       taskIsInitialized={isInitialized}
     />
   );
@@ -79,6 +91,23 @@ export const Task = (props: TaskProps) => {
     const newActualTimes = { ...actualTimes };
     newActualTimes[id] = actualTime;
     setActualTimes(newActualTimes);
+  };
+
+  const clearTaskState = () => {
+    setName("");
+    setPriority("★️");
+    setEstimatedTime("00:00");
+    setStartHour(undefined);
+    setStartMinute(undefined);
+    setStartStrHour("");
+    setStartStrMinute("");
+    setEndStrHour("");
+    setEndStrMinute("");
+    setEndHour(undefined);
+    setEndMinute(undefined);
+    setActualHour(undefined);
+    setActualMinute(undefined);
+    setStatus("Not Started");
   };
 
   useEffect(() => {
@@ -150,6 +179,8 @@ export const Task = (props: TaskProps) => {
         setEndHour(tableState.tasks[id].endHour);
         setEndMinute(tableState.tasks[id].endMinute);
         setStatus(tableState.tasks[id].status);
+      } else {
+        clearTaskState();
       }
       setIsInitialized(true);
     }

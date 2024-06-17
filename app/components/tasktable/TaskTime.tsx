@@ -6,11 +6,23 @@ export const TaskTime = (props: {
   minute: number | undefined;
   setHour: (value: number) => void;
   setMinute: (value: number) => void;
+  strHour: string;
+  strMinute: string;
+  setStrHour: (value: string) => void;
+  setStrMinute: (value: string) => void;
   taskIsInitialized: boolean;
 }) => {
-  const [strHour, setStrHour] = useState<string>("");
-  const [strMinute, setStrMinute] = useState<string>("");
-  const { hour, minute, setHour, setMinute, taskIsInitialized } = props;
+  const {
+    hour,
+    minute,
+    setHour,
+    setMinute,
+    strHour,
+    strMinute,
+    setStrHour,
+    setStrMinute,
+    taskIsInitialized,
+  } = props;
   const [isInitialized, setIsInitialized] = useState<boolean>(false);
 
   useEffect(() => {
@@ -23,7 +35,7 @@ export const TaskTime = (props: {
       }
       setIsInitialized(true);
     }
-  }, [taskIsInitialized, isInitialized]);
+  }, [taskIsInitialized]);
 
   useEffect(() => {
     if (isInitialized && strHour !== "") {
