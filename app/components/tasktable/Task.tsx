@@ -54,6 +54,7 @@ export const Task = (props: TaskProps) => {
       minute={startMinute}
       setHour={setStartHour}
       setMinute={setStartMinute}
+      taskIsInitialized={isInitialized}
     />
   );
   const jsxEndTime = (
@@ -62,6 +63,7 @@ export const Task = (props: TaskProps) => {
       minute={endMinute}
       setHour={setEndHour}
       setMinute={setEndMinute}
+      taskIsInitialized={isInitialized}
     />
   );
   const jsxActualTime = <ActualTime hour={actualHour} minute={actualMinute} />;
