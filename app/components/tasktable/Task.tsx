@@ -8,6 +8,7 @@ import { ActualTime } from "./ActualTime";
 import { TaskStatus } from "./TaskStatus";
 import { calcActualTime } from "../../utils/calcActualTime";
 import { TaskProps } from "../../interfaces/TaskProps";
+import { TimeButton } from "./TimeButton";
 
 export const Task = (props: TaskProps) => {
   const [isInitialized, setIsInitialized] = useState<boolean>(false);
@@ -80,6 +81,25 @@ export const Task = (props: TaskProps) => {
   );
   const jsxActualTime = <ActualTime hour={actualHour} minute={actualMinute} />;
   const jsxTaskStatus = <TaskStatus status={status} setStatus={setStatus} />;
+
+  const jsxStartTimeButton = (
+    <TimeButton
+      label="start"
+      setHour={setStartStrHour}
+      setMinute={setStartStrMinute}
+      setStatus={setStatus}
+      pushedStatus="In Progress"
+    />
+  );
+  const jsxEndTimeButton = (
+    <TimeButton
+      label="end"
+      setHour={setEndStrHour}
+      setMinute={setEndStrMinute}
+      setStatus={setStatus}
+      pushedStatus="Completed"
+    />
+  );
 
   const updateEstimatedTimes = (estimatedTime: string | undefined) => {
     const newEstimatedTimes = { ...estimatedTimes };
@@ -211,6 +231,8 @@ export const Task = (props: TaskProps) => {
       <div className={"w-28 ml-4 text-center" + statusColor}>
         {jsxTaskStatus}
       </div>
+      <div className=" w-12 ml-4">{jsxStartTimeButton}</div>
+      <div className=" w-12 ml-8">{jsxEndTimeButton}</div>
     </div>
   );
 };
