@@ -9,8 +9,8 @@ export const TimeButton = (props: {
 
   const setCurrentTime = () => {
     const currentTime = new Date();
-    setHour(currentTime.getHours().toString());
-    setMinute(currentTime.getMinutes().toString());
+    setHour(currentTime.getHours().toString().padStart(2, "0"));
+    setMinute(currentTime.getMinutes().toString().padStart(2, "0"));
     setStatus(pushedStatus);
   };
   return (
