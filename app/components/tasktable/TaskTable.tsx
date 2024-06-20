@@ -4,6 +4,8 @@ import { strTimeToMinute } from "@/app/utils/strTimeToMinute";
 import { TableHader } from "./TableHeader";
 import { TableSummary } from "./TableSummary";
 import { TableState } from "@/app/interfaces/TableState";
+import { calcTotalHourMinute } from "../../utils/calcTotalHourMinute";
+import { calcActualTime } from "../../utils/calcActualTime";
 
 export const TaskTable = (props: { tableName: string }) => {
   const [isInitialized, setIsInitialized] = useState<boolean>(false);
@@ -50,15 +52,7 @@ export const TaskTable = (props: { tableName: string }) => {
   }, [estimatedTimes]);
 
   useEffect(() => {
-    let totalMinute = 0;
-    Object.values(actualTimes).map((actualTime) => {
-      if (actualTime !== undefined) {
-        const tmpMinute = strTimeToMinute(actualTime);
-        totalMinute += tmpMinute;
-      }
-    });
-    const hour = Math.floor(totalMinute / 60);
-    const minute = totalMinute % 60;
+    const { hour, minute } = calcTotalHourMinute(actualTimes);
     setTotalActualTime(
       hour.toString().padStart(2, "0") +
         ":" +
@@ -74,6 +68,40 @@ export const TaskTable = (props: { tableName: string }) => {
           state: tableState,
         })
       );
+      const tasks = Object.values(tableState.tasks);
+      const newEstimatedTimes = tasks.map((task) => {
+        return task.estimatedTime;
+      });
+      const newActualTimes = tasks.map((task) => {
+        const startHour = task.startHour;
+        const startMinute = task.startMinute;
+        const endHour = task.endHour;
+        const endMinute = task.endMinute;
+
+        if (
+          startHour !== undefined &&
+          startMinute !== undefined &&
+          endHour !== undefined &&
+          endMinute !== undefined
+        ) {
+          const { diffHour, diffMinute } = calcActualTime(
+            startHour,
+            startMinute,
+            endHour,
+            endMinute
+          );
+          const newActualTime =
+            diffHour.toString().padStart(2, "0") +
+            ":" +
+            diffMinute.toString().padStart(2, "0");
+          return newActualTime;
+        } else {
+          return "00:00";
+        }
+      });
+      const { hour, minute } = calcTotalHourMinute(newActualTimes);
+      setEstimatedTimes(newEstimatedTimes);
+      setActualTimes(newActualTimes)
     }
   }, [isInitialized, name, tableState]);
 
@@ -90,8 +118,12 @@ export const TaskTable = (props: { tableName: string }) => {
     <div>
       <div className="flex">
         <div className="text-xl font-bold">{name}</div>
-        <button onClick={clearTableStates}
-        className="pl-2 pr-2 ml-4 rounded-lg text-white bg-primary hover:bg-secondary">Clear</button>
+        <button
+          onClick={clearTableStates}
+          className="pl-2 pr-2 ml-4 rounded-lg text-white bg-primary hover:bg-secondary"
+        >
+          Clear
+        </button>
       </div>
       <div className="flex flex-col">
         <TableHader />
