@@ -70,20 +70,18 @@ npm run build
             listen       8080;
             server_name  localhost;
 
-            location / {
-                root /YOUR_PROJECT/timeboxing-app/out;  # Replace to your project directory path
-                index  index.html index.htm;
+            location /timeboxing/ {
+                alias /Users/shun/Desktop/timeboxing-app/out/;
+                index index.html;
             }
 
-            location /_next/ {
-                alias /YOUR_PROJECT/timeboxing-app/out/_next/;
-            }
             error_page   500 502 503 504  /50x.html;
             location = /50x.html {
                 root   html;
             }
         include servers/*;
 
+        }
     }
     ```
 
