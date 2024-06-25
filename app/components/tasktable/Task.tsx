@@ -222,13 +222,13 @@ export const Task = (props: TaskProps) => {
 
   return (
     <div className="flex flex-row pt-2">
-      <div className="w-64 ml-4">{jsxTaskName}</div>
-      <div className="w-20 ml-4 text-left">{jsxTaskPriority}</div>
-      <div className="w-28 ml-4 text-right">{jsxEstimatedTime}</div>
-      <div className="w-20 ml-4 text-right">{jsxStartTime}</div>
-      <div className="w-20 ml-4 text-right">{jsxEndTime}</div>
-      <div className="w-28 ml-4 text-right">{jsxActualTime}</div>
-      <div className={"w-28 ml-4 text-center" + statusColor}>
+      <div className="w-64 min-w-64 ml-4">{jsxTaskName}</div>
+      <div className="w-20 min-w-20 ml-4 text-left">{jsxTaskPriority}</div>
+      <div className="w-28 min-w-28 ml-4 text-right">{jsxEstimatedTime}</div>
+      <div className="w-20 min-w-20 ml-4 text-right">{jsxStartTime}</div>
+      <div className="w-20 min-w-20 ml-4 text-right">{jsxEndTime}</div>
+      <div className="w-28 min-w-28 ml-4 text-right">{jsxActualTime}</div>
+      <div className={"w-28 min-w-28 ml-4 text-center" + statusColor}>
         {jsxTaskStatus}
       </div>
       <div className=" w-12 ml-4">{jsxStartTimeButton}</div>

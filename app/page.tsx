@@ -8,17 +8,17 @@ import { MainPane } from "./components/MainPane";
 export default function Home() {
   return (
     <RecoilRoot>
-      <main className="w-full h-screen">
+      <main className="w-screen h-screen">
         <header className="h-[5%] z-50">
           <Header />
         </header>
-        <div className="h-[92.5%] min-h-[92.5%] z-0">
-          <div className="flex h-full">
-            <div className="w-[10.0%] h-full border-r-2">
-              <SideBar/>
+        <div className="w-full h-[92.5%] min-h-[92.5%] z-0">
+          <div className="flex w-full min-w-full h-full">
+            <div className="w-[10.0%] min-w-32 h-full border-r-2">
+              <SideBar />
             </div>
-            <div className="w-[90%] h-full">
-              <MainPane/>
+            <div className="w-[90%] min-w-[90%] h-full overflow-scroll">
+              <MainPane />
             </div>
           </div>
         </div>
