@@ -127,7 +127,7 @@ export const TaskTable = (props: { tableName: string }) => {
       </div>
       <div className="flex flex-col">
         <TableHader />
-        <div className="border-b-2">
+        <div className="w-max min-w-max border-b-2">
           {Array(numTasks)
             .fill(0)
             .map((_, index) => {

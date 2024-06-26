@@ -231,8 +231,8 @@ export const Task = (props: TaskProps) => {
       <div className={"w-28 min-w-28 ml-4 text-center" + statusColor}>
         {jsxTaskStatus}
       </div>
-      <div className=" w-12 ml-4">{jsxStartTimeButton}</div>
-      <div className=" w-12 ml-8">{jsxEndTimeButton}</div>
+      <div className=" w-12 min-w-12 ml-4">{jsxStartTimeButton}</div>
+      <div className=" w-12 min-w-12 ml-8">{jsxEndTimeButton}</div>
     </div>
   );
 };

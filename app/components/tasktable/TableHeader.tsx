@@ -8,7 +8,7 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 export const TableHader = () => {
   return (
-    <div className="flex flex-row w-full border-b-2">
+    <div className="flex flex-row border-b-2 w-max min-w-max">
       <div className="w-64 min-w-64 font-bold text-center ml-4">
         <FontAwesomeIcon icon={faPen} /> Task
       </div>
@@ -30,6 +30,7 @@ export const TableHader = () => {
       <div className=" w-28 min-w-28 font-bold text-center ml-4">
         <FontAwesomeIcon icon={faCheck} /> Status
       </div>
+      <div className="w-36 min-w-36"></div>
     </div>
   );
 };

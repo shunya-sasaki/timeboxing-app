@@ -4,7 +4,7 @@ export const TableSummary = (props: {
 }) => {
   const { totalEstimatedTime, totalActualTime } = props;
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-row w-max min-w-max">
       <div className="w-64 min-w-64 ml-4"></div>
       <div className="w-20 min-w-20 ml-4"></div>
       <div className="w-14 min-w-14 ml-16 pl-2">{totalEstimatedTime}</div>
