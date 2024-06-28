@@ -4,8 +4,11 @@ import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { SideBar } from "./components/SideBar";
 import { MainPane } from "./components/MainPane";
+import {useState} from "react";
 
 export default function Home() {
+  const [isSidebarHovered, setIsSidebarHovered] = useState(false);
+
   return (
     <RecoilRoot>
       <main className="w-screen min-w-max h-lvh overflow-auto">
@@ -14,10 +17,14 @@ export default function Home() {
         </header>
         <div className="w-max min-h-[92.5%] mt-10 z-0">
           <div className="flex h-full">
-            <div className="fixed z-0 bg-white w-auto min-w-32 h-full border-r-2">
-              <SideBar />
+            <div
+              onMouseEnter={() => setIsSidebarHovered(true)}
+              onMouseLeave={() => setIsSidebarHovered(false)}
+              className="fixed z-0 bg-white overflow-hidden w-auto min-w-8 h-full border-r-2"
+            >
+              <SideBar isHovered={isSidebarHovered}/>
             </div>
-            <div className="ml-32 w-max min-w-max h-full">
+            <div className={` transition-all duration-100 w-max min-w-max h-full ${isSidebarHovered ? "ml-32": "ml-12"}`}>
               <MainPane />
               <div></div>
             </div>
