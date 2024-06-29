@@ -1,10 +1,17 @@
-import { useState } from "react";
-
+/**
+ * Represents a component that displays and allows selection of task status.
+ *
+ * @component
+ * @param {Object} props - The properties for the TaskStatus component.
+ * @param {string} props.status - The current status of the task.
+ * @param {Function} props.setStatus - A function to update the status of the task.
+ * @returns {JSX.Element} The rendered TaskStatus component.
+ */
 export const TaskStatus = (props: {
   status: string;
   setStatus: (status: string) => void;
 }) => {
-  const {status, setStatus} = props;
+  const { status, setStatus } = props;
   return (
     <div>
       <select

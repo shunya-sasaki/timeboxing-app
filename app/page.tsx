@@ -1,3 +1,5 @@
+
+
 "use client";
 import { RecoilRoot } from "recoil";
 import { Header } from "./components/Header";
@@ -20,13 +22,12 @@ export default function Home() {
             <div
               onMouseEnter={() => setIsSidebarHovered(true)}
               onMouseLeave={() => setIsSidebarHovered(false)}
-              className="fixed z-0 bg-white overflow-hidden w-auto min-w-8 h-full border-r-2"
+              className="fixed z-0 bg-white w-auto min-w-8 h-full border-r-2"
             >
               <SideBar isHovered={isSidebarHovered}/>
             </div>
             <div className={` transition-all duration-100 w-max min-w-max h-full ${isSidebarHovered ? "ml-32": "ml-12"}`}>
               <MainPane />
-              <div></div>
             </div>
           </div>
         </div>

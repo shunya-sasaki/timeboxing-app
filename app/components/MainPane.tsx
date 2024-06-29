@@ -1,3 +1,8 @@
+/**
+ * Renders the main pane component.
+ * @returns The JSX element representing the main pane.
+ */
+
 import { TaskTable } from "./tasktable/TaskTable";
 
 export const MainPane = () => {

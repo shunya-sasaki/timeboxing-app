@@ -23,7 +23,6 @@ export const SideBar = (props: {isHovered: boolean}) => {
           <div key={"menuItem-" + index} className="text-xl font-bold hover:text-accent pt-4">
             <FontAwesomeIcon icon={menuItem.icon} />
           </div>
-
         );
       })}
     </div>
