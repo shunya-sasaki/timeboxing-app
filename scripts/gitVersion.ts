@@ -152,7 +152,7 @@ if (environment === "development" || environment === "production") {
   add("package-lock.json");
   console.log("Added package.json and package-lock.json.");
   deleteTag(gitStatus.latestTag);
-  commit(`Release ${gitStatus.latestTag}`);
+  commit(`Release ${gitStatus.latestTag}`, false);
   tag(gitStatus.latestTag);
   push();
   pushTag();
