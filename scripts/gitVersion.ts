@@ -135,6 +135,7 @@ const version = gitStatus.version;
 if (environment === "development" || environment === "production") {
   updateVersion(version, environment);
   updatePackageJson(version);
+  add(`.env.${environment}`);
   add("package.json");
   add("package-lock.json");
 } else if (
