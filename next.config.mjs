@@ -1,9 +1,7 @@
 /** @type {import('next').NextConfig} */
-const isProd = process.env.NODE_ENV === "production";
-
 const nextConfig = {
   output: "export",
-  assetPrefix: isProd ? "/timeboxing" : "",
+  assetPrefix: process.env.NODE_ENV === "development" ? "" : "/timeboxing-app",
 };
 
 export default nextConfig;

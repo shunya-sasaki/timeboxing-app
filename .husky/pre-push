@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+echo "Running pre-push hook"
+
+while read local_ref local_sha remote_ref remote_sha; do
+    branch_name=$(echo "$local_ref" | sed 's/refs\/heads\///')
+done
+
+if [ "$branch_name" = "main" ]; then
+    echo "Pushing to main branch with normal push is not allowed!" >&2
+    echo "Please use the command \`npm run release\` to push changes!!" >&2
+    exit 1
+elif [ "$branch_name" = "" ]; then
+    echo "No changes pushed"
+else
+    echo "branch_name is not main"
+fi
+exit 0
