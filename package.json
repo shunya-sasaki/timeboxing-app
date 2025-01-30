@@ -1,13 +1,14 @@
 {
   "name": "timeboxing-app",
-  "version": "0.0.2.dev13+7deb56a",
+  "version": "0.0.3.dev0+3fe052a",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prepare": "husky"
+    "prepare": "husky",
+    "release": "node ./scripts/gitVersion.ts release"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
