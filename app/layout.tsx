@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
+import { Header } from "./components/Header";
+import { Footer } from "./components/Footer";
+import { SideBar } from "./components/SideBar";
 
 export const metadata: Metadata = {
   title: "Time Boxing App",
@@ -16,7 +16,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className="w-screen min-w-max h-lvh overflow-hidden">
+        <header className="sticky top-0 w-screen lvw min-w-max h-10 z-50">
+          <Header />
+        </header>
+        <div className="flex w-max min-h-full h-full z-0">
+          <SideBar />
+          <div
+            className={`transition-all duration-100 w-max min-w-max min-h-full h-full`}
+          >
+            {children}
+          </div>
+        </div>
+        <footer className="fixed bottom-0 w-screen h-6 z-50">
+          <Footer />
+        </footer>
+      </body>
     </html>
   );
 }
