@@ -1,5 +1,5 @@
 "use client";
-import { TaskTable } from "@/app/components/TaskTable/TaskTable";
+import { TaskTable } from "@/app/components/TaskTables/TaskTable";
 
 export default function Home() {
   return (
