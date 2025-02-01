@@ -1,6 +1,6 @@
 {
   "name": "timeboxing-app",
-  "version": "0.0.3",
+  "version": "0.0.4.dev0+74f9a19",
   "private": true,
   "scripts": {
     "dev": "next dev",
