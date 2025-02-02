@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Header } from "./components/Header";
-import { Footer } from "./components/Footer";
-import { SideBar } from "./components/SideBar";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { SideBar } from "@/components/SideBar";
 
 export const metadata: Metadata = {
   title: "Time Boxing App",

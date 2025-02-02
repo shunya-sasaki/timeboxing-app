@@ -7,8 +7,8 @@ import Link from "next/link";
 
 export const SideBar = () => {
   const menuItems = [
-    { name: "Home", icon: faHouse, href: "/timeboxing-app" },
-    { name: "Config", icon: faGear, href: "/timeboxing-app/config" },
+    { name: "Home", icon: faHouse, href: "/" },
+    { name: "Config", icon: faGear, href: "/config" },
   ];
   const [isSidebarHovered, setIsSidebarHovered] = useState(false);
 
