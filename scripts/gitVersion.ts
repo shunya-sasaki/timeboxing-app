@@ -147,6 +147,8 @@ if (environment === "development" || environment === "production") {
   console.log("Start updating package.json.");
   updateVersion(version, "development");
   updateVersion(version, "production");
+  add(".env.development");
+  add(".env.production");
   updatePackageJson(version);
   console.log("Updated package.json.");
   add("package.json");
