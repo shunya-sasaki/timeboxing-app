@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Task } from "./Task";
-import { strTimeToMinute } from "@/app/utils/strTimeToMinute";
+import { strTimeToMinute } from "@/utils/strTimeToMinute";
 import { TableHader } from "./TableHeader";
 import { TableSummary } from "./TableSummary";
-import { TableState } from "@/app/interfaces/TableState";
+import { TableState } from "@/interfaces/TableState";
 import { calcTotalHourMinute } from "../../utils/calcTotalHourMinute";
 import { calcActualTime } from "../../utils/calcActualTime";
 
@@ -101,7 +101,7 @@ export const TaskTable = (props: { tableName: string }) => {
       });
       const { hour, minute } = calcTotalHourMinute(newActualTimes);
       setEstimatedTimes(newEstimatedTimes);
-      setActualTimes(newActualTimes)
+      setActualTimes(newActualTimes);
     }
   }, [isInitialized, name, tableState]);
 
