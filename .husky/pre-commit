@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-node ./scripts/gitVersion.ts development
-exit 0
