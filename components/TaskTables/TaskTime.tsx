@@ -1,71 +1,70 @@
 import { useState } from "react";
-import { useEffect } from "react";
+
+const formatTimePart = (value: number | undefined) => {
+  return value === undefined ? "" : value.toString().padStart(2, "0");
+};
+
+const parseTimePart = (str: string) => {
+  const value = parseInt(str);
+  return Number.isNaN(value) ? undefined : value;
+};
+
+const TimePartInput = (props: {
+  value: number | undefined;
+  setValue: (value: number | undefined) => void;
+  className: string;
+  placeholder: string;
+}) => {
+  const { value, setValue, className, placeholder } = props;
+  // Keep the typed text so that e.g. "0" is not reformatted to "00" mid-input.
+  const [text, setText] = useState(formatTimePart(value));
+  const [prevValue, setPrevValue] = useState(value);
+
+  // Sync the text when the value is changed from outside (Clear, time buttons).
+  if (value !== prevValue) {
+    setPrevValue(value);
+    if (parseTimePart(text) !== value) {
+      setText(formatTimePart(value));
+    }
+  }
+
+  return (
+    <input
+      type="text"
+      value={text}
+      onChange={(e) => {
+        setText(e.target.value);
+        setValue(parseTimePart(e.target.value));
+      }}
+      className={className}
+      placeholder={placeholder}
+    ></input>
+  );
+};
 
 export const TaskTime = (props: {
   hour: number | undefined;
   minute: number | undefined;
-  setHour: (value: number) => void;
-  setMinute: (value: number) => void;
-  strHour: string;
-  strMinute: string;
-  setStrHour: (value: string) => void;
-  setStrMinute: (value: string) => void;
-  taskIsInitialized: boolean;
+  setHour: (value: number | undefined) => void;
+  setMinute: (value: number | undefined) => void;
 }) => {
-  const {
-    hour,
-    minute,
-    setHour,
-    setMinute,
-    strHour,
-    strMinute,
-    setStrHour,
-    setStrMinute,
-    taskIsInitialized,
-  } = props;
-  const [isInitialized, setIsInitialized] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (taskIsInitialized && !isInitialized) {
-      if (hour !== undefined) {
-        setStrHour(hour.toString().padStart(2, "0"));
-      }
-      if (minute !== undefined) {
-        setStrMinute(minute.toString().padStart(2, "0"));
-      }
-      setIsInitialized(true);
-    }
-  }, [taskIsInitialized]);
-
-  useEffect(() => {
-    if (isInitialized && strHour !== "") {
-      setHour(parseInt(strHour));
-    }
-  }, [setHour, strHour]);
-
-  useEffect(() => {
-    if (isInitialized && strMinute !== "") {
-      setMinute(parseInt(strMinute));
-    }
-  }, [setMinute, strMinute]);
+  const { hour, minute, setHour, setMinute } = props;
 
   return (
     <div>
-      <input
-        type="text"
-        value={strHour}
-        onChange={(e) => setStrHour(e.target.value)}
+      <TimePartInput
+        value={hour}
+        setValue={setHour}
         className=" w-6 text-right"
         placeholder="HH"
-      ></input>
+      />
       :
-      <input
-        type="text"
-        value={strMinute}
-        onChange={(e) => setStrMinute(e.target.value)}
+      <TimePartInput
+        value={minute}
+        setValue={setMinute}
         className=" w-8"
         placeholder="MM"
-      ></input>
+      />
     </div>
   );
 };

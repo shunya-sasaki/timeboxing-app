@@ -1,12 +1,6 @@
-import { TableState } from "./TableState";
+import { TaskState } from "./TableState";
 
 export interface TaskProps {
-  id: number;
-  estimatedTimes: {} | { [key: number]: string | undefined };
-  setEstimatedTimes: (object: { [key: number]: string | undefined }) => void;
-  actualTimes: {} | { [key: number]: string | undefined };
-  setActualTimes: (object: { [key: number]: string | undefined }) => void;
-  tableState: TableState;
-  setTableState: (object: TableState) => void;
-  tableIsInitialized: boolean;
+  task: TaskState;
+  updateTask: (changes: Partial<TaskState>) => void;
 }

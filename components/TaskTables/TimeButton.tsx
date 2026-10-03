@@ -1,17 +1,12 @@
 export const TimeButton = (props: {
   label: string;
-  setHour: (value: string) => void;
-  setMinute: (value: string) => void;
-  setStatus: (value: string) => void;
-  pushedStatus: string;
+  setTime: (hour: number, minute: number) => void;
 }) => {
-  const { label, setHour, setMinute, setStatus, pushedStatus } = props;
+  const { label, setTime } = props;
 
   const setCurrentTime = () => {
     const currentTime = new Date();
-    setHour(currentTime.getHours().toString().padStart(2, "0"));
-    setMinute(currentTime.getMinutes().toString().padStart(2, "0"));
-    setStatus(pushedStatus);
+    setTime(currentTime.getHours(), currentTime.getMinutes());
   };
   return (
     <button

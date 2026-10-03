@@ -1,118 +1,68 @@
 import { useEffect, useState } from "react";
 import { Task } from "./Task";
-import { strTimeToMinute } from "@/utils/strTimeToMinute";
 import { TableHader } from "./TableHeader";
 import { TableSummary } from "./TableSummary";
-import { TableState } from "@/interfaces/TableState";
+import { TableState, TaskState } from "@/interfaces/TableState";
 import { calcTotalHourMinute } from "../../utils/calcTotalHourMinute";
-import { calcActualTime } from "../../utils/calcActualTime";
+import { calcTaskActualTime } from "../../utils/calcTaskActualTime";
+import { formatHourMinute } from "../../utils/formatHourMinute";
+
+const defaultTaskState: TaskState = {
+  name: "",
+  priority: "★️",
+  estimatedTime: "00:00",
+  startHour: undefined,
+  startMinute: undefined,
+  endHour: undefined,
+  endMinute: undefined,
+  status: "Not Started",
+};
+
+// Reads localStorage, so the table must be rendered on the client only.
+const loadTableState = (name: string): TableState => {
+  const storedData = localStorage.getItem(name);
+  if (storedData === null) {
+    return { tasks: {} };
+  }
+  return JSON.parse(storedData).state;
+};
 
 export const TaskTable = (props: { tableName: string }) => {
-  const [isInitialized, setIsInitialized] = useState<boolean>(false);
   const name = props.tableName;
   const numTasks = 8;
-  const [estimatedTimes, setEstimatedTimes] = useState<{} | { string: string }>(
-    {}
+  const [tableState, setTableState] = useState<TableState>(() =>
+    loadTableState(name)
   );
-  const [totalEstimatedTime, setTotalEstimatedTime] = useState<string>("00:00");
 
-  const [actualTimes, setActualTimes] = useState<{} | { string: string }>({});
-  const [totalActualTime, setTotalActualTime] = useState<string>("00:00");
+  useEffect(() => {
+    localStorage.setItem(name, JSON.stringify({ state: tableState }));
+  }, [name, tableState]);
 
-  const [tableState, setTableState] = useState<TableState>({ tasks: {} });
+  const updateTask = (id: number, changes: Partial<TaskState>) => {
+    setTableState((prev) => ({
+      tasks: {
+        ...prev.tasks,
+        [id]: { ...defaultTaskState, ...prev.tasks[id], ...changes },
+      },
+    }));
+  };
 
   const clearTableStates = () => {
-    setIsInitialized(false);
-    setEstimatedTimes({});
-    setActualTimes({});
     setTableState({ tasks: {} });
   };
 
-  useEffect(() => {
-    if (!isInitialized) {
-      setIsInitialized(true);
-    }
-  }, [isInitialized]);
-
-  useEffect(() => {
-    let totalMinute = 0;
-    Object.values(estimatedTimes).map((estimatedTime) => {
-      if (estimatedTime !== undefined) {
-        const tmpMinute = strTimeToMinute(estimatedTime);
-        totalMinute += tmpMinute;
-      }
-    });
-    const hour = Math.floor(totalMinute / 60);
-    const minute = totalMinute % 60;
-    setTotalEstimatedTime(
-      hour.toString().padStart(2, "0") +
-        ":" +
-        minute.toString().padStart(2, "0")
-    );
-  }, [estimatedTimes]);
-
-  useEffect(() => {
-    const { hour, minute } = calcTotalHourMinute(actualTimes);
-    setTotalActualTime(
-      hour.toString().padStart(2, "0") +
-        ":" +
-        minute.toString().padStart(2, "0")
-    );
-  }, [actualTimes]);
-
-  useEffect(() => {
-    if (isInitialized && Object.keys(tableState.tasks).length > 0) {
-      localStorage.setItem(
-        name,
-        JSON.stringify({
-          state: tableState,
-        })
-      );
-      const tasks = Object.values(tableState.tasks);
-      const newEstimatedTimes = tasks.map((task) => {
-        return task.estimatedTime;
-      });
-      const newActualTimes = tasks.map((task) => {
-        const startHour = task.startHour;
-        const startMinute = task.startMinute;
-        const endHour = task.endHour;
-        const endMinute = task.endMinute;
-
-        if (
-          startHour !== undefined &&
-          startMinute !== undefined &&
-          endHour !== undefined &&
-          endMinute !== undefined
-        ) {
-          const { diffHour, diffMinute } = calcActualTime(
-            startHour,
-            startMinute,
-            endHour,
-            endMinute
-          );
-          const newActualTime =
-            diffHour.toString().padStart(2, "0") +
-            ":" +
-            diffMinute.toString().padStart(2, "0");
-          return newActualTime;
-        } else {
-          return "00:00";
-        }
-      });
-      const { hour, minute } = calcTotalHourMinute(newActualTimes);
-      setEstimatedTimes(newEstimatedTimes);
-      setActualTimes(newActualTimes);
-    }
-  }, [isInitialized, name, tableState]);
-
-  useEffect(() => {
-    const storedData = localStorage.getItem(name);
-    if (storedData !== null) {
-      const parsedData = JSON.parse(storedData);
-      setTableState(parsedData.state);
-    }
-    setIsInitialized(true);
-  }, []);
+  const tasks = Object.values(tableState.tasks);
+  const estimatedTotal = calcTotalHourMinute(
+    tasks.map((task) => task.estimatedTime)
+  );
+  const actualTotal = calcTotalHourMinute(
+    tasks.map((task) => {
+      const actualTime = calcTaskActualTime(task);
+      return actualTime === undefined
+        ? "00:00"
+        : formatHourMinute(actualTime.diffHour, actualTime.diffMinute);
+    })
+  );
 
   return (
     <div>
@@ -134,21 +84,21 @@ export const TaskTable = (props: { tableName: string }) => {
               return (
                 <Task
                   key={"task-" + index}
-                  id={index}
-                  estimatedTimes={estimatedTimes}
-                  setEstimatedTimes={setEstimatedTimes}
-                  actualTimes={actualTimes}
-                  setActualTimes={setActualTimes}
-                  tableState={tableState}
-                  setTableState={setTableState}
-                  tableIsInitialized={isInitialized}
+                  task={tableState.tasks[index] ?? defaultTaskState}
+                  updateTask={(changes) => updateTask(index, changes)}
                 />
               );
             })}
         </div>
         <TableSummary
-          totalEstimatedTime={totalEstimatedTime}
-          totalActualTime={totalActualTime}
+          totalEstimatedTime={formatHourMinute(
+            estimatedTotal.hour,
+            estimatedTotal.minute
+          )}
+          totalActualTime={formatHourMinute(
+            actualTotal.hour,
+            actualTotal.minute
+          )}
         />
       </div>
     </div>

@@ -1,5 +1,12 @@
 "use client";
-import { TaskTable } from "@/components/TaskTables/TaskTable";
+import dynamic from "next/dynamic";
+
+// TaskTable reads its state from localStorage, which is not available during
+// static export, so render it on the client only.
+const TaskTable = dynamic(
+  () => import("@/components/TaskTables/TaskTable").then((m) => m.TaskTable),
+  { ssr: false }
+);
 
 export default function Home() {
   return (
